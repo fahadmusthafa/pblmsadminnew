@@ -134,19 +134,24 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
   }
 
   Widget _buildTabSection(int requestCount, double screenWidth) {
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildTabButton("Pending", selectedTab == "Pending", screenWidth),
-            _buildTabButton("Approved", selectedTab == "Approved", screenWidth),
-            _buildTabButton("Rejected", selectedTab == "Rejected", screenWidth),
-          ],
+    return Container(
+      width: double.infinity,
+      child: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IntrinsicWidth(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: _buildTabButton("Pending", selectedTab == "Pending", screenWidth)),
+                Expanded(child: _buildTabButton("Approved", selectedTab == "Approved", screenWidth)),
+                Expanded(child: _buildTabButton("Rejected", selectedTab == "Rejected", screenWidth)),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -163,8 +168,9 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
+          width: screenWidth < 600 ? double.infinity : null,
           padding: EdgeInsets.symmetric(
-            horizontal: screenWidth < 600 ? 14 : 70, 
+            horizontal: screenWidth < 600 ? 14 : 24, 
             vertical: 8,
           ),
           decoration: BoxDecoration(

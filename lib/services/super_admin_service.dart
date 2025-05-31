@@ -300,7 +300,7 @@ class SuperAdminService {
           'title': title,
           'content': content,
           'videoLink': videoLink,
-          'pdfFile': pdfFile,
+          'pdfUrl': pdfFile,
         }),
       );
       final responseData = jsonDecode(response.body);

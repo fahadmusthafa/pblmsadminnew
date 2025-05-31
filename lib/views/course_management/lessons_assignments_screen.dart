@@ -1058,7 +1058,7 @@ class _LessonsAssignmentsScreenState extends State<LessonsAssignmentsScreen> {
 
     return Container(
       alignment: Alignment.center,
-      height: lessons.length <= 5 ? lessons.length.toDouble() * 60 : 300,
+      height: lessons.length <= 5 ? null : 300,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
