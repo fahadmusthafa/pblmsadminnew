@@ -133,66 +133,101 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
     );
   }
 
-  Widget _buildTabSection(int requestCount, double screenWidth) {
-    return Container(
-      width: double.infinity,
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: IntrinsicWidth(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+Widget _buildTabSection(int requestCount, double screenWidth) {
+  return Center(
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: screenWidth < 600
+          ? Row(
               children: [
-                Expanded(child: _buildTabButton("Pending", selectedTab == "Pending", screenWidth)),
-                Expanded(child: _buildTabButton("Approved", selectedTab == "Approved", screenWidth)),
-                Expanded(child: _buildTabButton("Rejected", selectedTab == "Rejected", screenWidth)),
+                Expanded(
+                  child: _buildTabButton("Pending", selectedTab == "Pending", screenWidth),
+                ),
+                Expanded(
+                  child: _buildTabButton("Approved", selectedTab == "Approved", screenWidth),
+                ),
+                Expanded(
+                  child: _buildTabButton("Rejected", selectedTab == "Rejected", screenWidth),
+                ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
+            )
+          : screenWidth < 1000
+              ? Container(
+                  constraints: BoxConstraints(
+                    maxWidth: screenWidth * 0.9,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _buildTabButton("Pending", selectedTab == "Pending", screenWidth),
+                      ),
+                      Expanded(
+                        child: _buildTabButton("Approved", selectedTab == "Approved", screenWidth),
+                      ),
+                      Expanded(
+                        child: _buildTabButton("Rejected", selectedTab == "Rejected", screenWidth),
+                      ),
+                    ],
+                  ),
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildTabButton("Pending", selectedTab == "Pending", screenWidth),
+                    _buildTabButton("Approved", selectedTab == "Approved", screenWidth),
+                    _buildTabButton("Rejected", selectedTab == "Rejected", screenWidth),
+                  ],
+                ),
+    ),
+  );
+}
+
+Widget _buildTabButton(String title, bool isSelected, double screenWidth) {
+  double horizontalPadding;
+  if (screenWidth < 480) {
+    horizontalPadding = 8;
+  } else if (screenWidth < 600) {
+    horizontalPadding = 12;
+  } else if (screenWidth < 1000) {
+    horizontalPadding = 16;
+  } else {
+    horizontalPadding = 24;
   }
 
-  Widget _buildTabButton(String title, bool isSelected, double screenWidth) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedTab = title;
-          expandedLeaveId = null;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Container(
-          width: screenWidth < 600 ? double.infinity : null,
-          padding: EdgeInsets.symmetric(
-            horizontal: screenWidth < 600 ? 14 : 24, 
-            vertical: 8,
-          ),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? const Color.fromARGB(255, 60, 60, 60)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              fontSize: screenWidth < 600 ? 14 : 16,
-              fontWeight: FontWeight.w500,
-              color: isSelected ? Colors.white : Colors.black,
-            ),
-          ),
+  return GestureDetector(
+    onTap: () {
+      setState(() {
+        selectedTab = title;
+        expandedLeaveId = null;
+      });
+    },
+    child: Container(
+      margin: const EdgeInsets.all(4.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: horizontalPadding,
+        vertical: 12,
+      ),
+      decoration: BoxDecoration(
+        color: isSelected
+            ? const Color.fromARGB(255, 60, 60, 60)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: GoogleFonts.poppins(
+          fontSize: screenWidth < 600 ? 14 : 16,
+          fontWeight: FontWeight.w500,
+          color: isSelected ? Colors.white : Colors.black,
         ),
       ),
-    );
-  }
-
+    ),
+  );
+}
   Widget _buildSearchBar(double screenWidth) {
     final leaveProvider = Provider.of<AdminAuthProvider>(context);
 
